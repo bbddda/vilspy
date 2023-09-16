@@ -9,5 +9,5 @@ void payload_entry() {
 
 
 
-  reinterpret_cast<void (*)()>(g_base + g_ctx.ep)();
+  reinterpet_cast<void (*)()>(g_base + g_ctx.ep)();
 }
