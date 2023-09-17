@@ -366,3 +366,4 @@ FodyWeavers.xsd
 *.exp
 *.lib
 /build/intermediates
+*.i64
