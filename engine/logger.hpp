@@ -8,7 +8,7 @@
 
 class logger_c {
  public:
-  enum code_e : u8 { ok, err, wait, warn };
+  enum code_e : u8 { ok, err, wait, warn, no_prefix };
 
   std::atomic<bool> m_exit;
   std::thread m_thread;

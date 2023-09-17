@@ -141,10 +141,12 @@
     <ClCompile Include="entry.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="pe.cpp" />
+    <ClCompile Include="string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="pe.hpp" />
+    <ClInclude Include="string.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

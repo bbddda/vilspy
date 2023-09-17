@@ -6,6 +6,11 @@
 #define RECORD(address, type, field) \
   ((type*)((char*)(address) - (ULONGLONG)(&((type*)0)->field)))
 
+constexpr u16 PAGE_SIZE = 0x1000;
+constexpr u16 PAGE_MASK = PAGE_SIZE - 1;
+
+#define ALIGN_TO_PAGE_END(val) (((val) + PAGE_MASK) & ~PAGE_MASK)
+
 struct _STRING64 {
   USHORT Length;         // 0x0
   USHORT MaximumLength;  // 0x2
@@ -230,3 +235,14 @@ typedef struct _FULL_LDR_DATA_TABLE_ENTRY {
   ULONG DependentLoadFlags;                                 // 0x118
   UCHAR SigningLevel;                                       // 0x11c
 } FULL_LDR_DATA_TABLE_ENTRY, *PFULL_LDR_DATA_TABLE_ENTRY;
+
+extern "C" {
+PVOID NTAPI RtlAddVectoredExceptionHandler(
+    IN ULONG FirstHandler, IN PVECTORED_EXCEPTION_HANDLER VectoredHandler);
+NTSTATUS NTAPI RtlEnterCriticalSection(PRTL_CRITICAL_SECTION CriticalSection);
+NTSTATUS NTAPI RtlInitializeCriticalSection(PRTL_CRITICAL_SECTION CriticalSection);
+NTSTATUS NTAPI RtlLeaveCriticalSection(PRTL_CRITICAL_SECTION CriticalSection);
+BOOLEAN NTAPI RtlTryEnterCriticalSection(PRTL_CRITICAL_SECTION CriticalSection);
+
+NTSYSAPI ULONG DbgPrintEx(ULONG ComponentId, ULONG Level, PCSTR Format, ...);
+}

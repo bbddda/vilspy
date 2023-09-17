@@ -3,6 +3,6 @@ cls
 echo Obfuscator:
 engine.exe cowboy.exe output.exe
 
-echo =========================
+echo --------------------
 echo Test Run:
 output.exe

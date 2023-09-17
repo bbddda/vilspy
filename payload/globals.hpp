@@ -3,5 +3,5 @@
 #include <Windows.h>
 
 extern "C" {
-__declspec(dllexport) inline pyld_ctx_t g_ctx = {0xFF, 0xFF, 0xFF};
+__declspec(dllexport) inline pyld_ctx_t e_ctx = {.ep = 0xFF};
 }

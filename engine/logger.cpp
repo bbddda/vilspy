@@ -5,6 +5,11 @@
 
 void logger_c::PrintLog(logger_c* logger, code_e code,
                         const std::wstring& log) {
+  if (code == no_prefix) {
+    wprintf(L"%s\n", log.data());
+    return;
+  } 
+
   wchar_t prefix = ' ';
   switch (code) {
     case ok:
