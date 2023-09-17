@@ -1,8 +1,8 @@
 cls
 @echo off
-echo Obfuscating...
+echo Obfuscator:
 engine.exe cowboy.exe output.exe
 
 echo =========================
-echo Runnning...
+echo Test Run:
 output.exe

@@ -38,6 +38,8 @@ IMAGE_NT_HEADERS* pe_c::Nt() {
   return (IMAGE_NT_HEADERS*)(Base() + Dos()->e_lfanew);
 }
 
+u64 pe_c::ImageSize() { return Nt()->OptionalHeader.SizeOfImage; }
+
 u64 pe_c::RvaToOffset(u64 rva) {
   for (auto sec = FirstSection(); sec <= LastSection(); ++sec) {
     u32 start = sec->VirtualAddress;

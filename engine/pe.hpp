@@ -27,6 +27,8 @@ class pe_c {
   IMAGE_DOS_HEADER* Dos();
   IMAGE_NT_HEADERS* Nt();
 
+  u64 ImageSize();
+
   u64 RvaToOffset(u64 rva);
   u64 AlignRaw(u64 addr);
   u64 AlignVirt(u64 addr);

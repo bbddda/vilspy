@@ -14,6 +14,12 @@ constexpr u32 hash(const T* str) {
       hash = _mm_crc32_u16(hash, *p);
     }
 
+    hash ^= *p;
+    hash ^= 0x4447bbee;
+    hash = (hash >> 1);
+    hash ^= 0x092cd4af;
+    hash += (hash << 5);
+
     ++p;
   }
 
@@ -31,6 +37,12 @@ u32 run_hash(const T* str) {
       hash = _mm_crc32_u16(hash, *p);
     }
 
+    hash ^= *p;
+    hash ^= 0x4447bbee;
+    hash = (hash >> 1);
+    hash ^= 0x092cd4af;
+    hash += (hash << 5);
+
     ++p;
   }
 
@@ -39,4 +51,4 @@ u32 run_hash(const T* str) {
 }  // namespace crypto
 
 #define h(str) crypto::hash(str)
-#define hash(str) crypto::run_hash(str)
+#define rh(str) crypto::run_hash(str)
