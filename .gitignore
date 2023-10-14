@@ -367,3 +367,5 @@ FodyWeavers.xsd
 *.lib
 /build/intermediates
 *.i64
+*.o
+*.asm
