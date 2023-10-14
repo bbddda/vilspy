@@ -1,7 +1,6 @@
 #pragma once
 
 #include <intrin.h>
-#include <windows.h>
 
 #include <__msvc_int128.hpp>
 
@@ -23,9 +22,9 @@ typedef double float64;
 #pragma pack(push, 1)
 struct section_t {
   struct {
-    u8 encoded : 1;
-    u8 integrity : 1;
-    u8 guard : 1;
+    bool encrypted : 1;
+    bool integrity : 1;
+    bool guarded : 1;
   };
 
   u32 crc;
@@ -34,52 +33,54 @@ struct section_t {
 };
 
 struct pyld_ctx_t {
+  u128 key;
+  u32 ep;
+  u8 section_count;
+
   struct {
-    u32 key0 : 22;
-    u32 key1 : 24;
-    u32 key2 : 18;
+    bool find_vm : 1;
+    bool find_dbg : 1;
+    bool sec_integrity : 1;
+    bool sec_guard : 1;
+    bool sec_encrypt : 1;
   };
 
-  u32 ep;
-  u8 section_count : 6;
-  section_t sections[10];
+  section_t sections[32];
 };
 #pragma pack(pop)
 
-static __forceinline u8 enc8(u8 value, u32 key1, u32 key2, u32 key3) {
-  value ^= (u8)(key1 & 0xff);
-  value += (u8)(key2 & 0xff);
-  value = _rotr8(value, (u8)(key3 & 0x7));
+static __forceinline u8 enc8(u8 value, u128 key) {
+  u64 lower = (u64)(key >> 64);
+  u64 upper = (u64)key;
+
+  value ^= upper;
+  value += lower;
   return value;
 }
 
-static __forceinline u8 dec8(u8 value, u32 key1, u32 key2, u32 key3) {
-  value = _rotl8(value, (u8)(key3 & 0x7));
-  value -= (u8)(key2 & 0xff);
-  value ^= (u8)(key1 & 0xff);
+static __forceinline u8 dec8(u8 value, u128 key) {
+  u64 lower = (u64)(key >> 64);
+  u64 upper = (u64)key;
+
+  value -= lower;
+  value ^= upper;
   return value;
 }
 
-static __forceinline u64 enc64(u64 value, u32 key1, u32 key2, u32 key3) {
-  value ^= key1 * key3;
-  value += key2;
-  return value;
+static __forceinline u64 enc64(u64 value, u128 key) {
+  return value ^ (u32)key;
 }
 
-static __forceinline u64 dec64(u64 value, u32 key1, u32 key2, u32 key3) {
-  value -= key2;
-  value ^= key1 * key3;
-  return value;
-}
+static __forceinline u64 dec64(u64 value, u128 key) { return value ^ (u32)key; }
 
 static __forceinline void CryptContext(u64 base, pyld_ctx_t* ctx) {
   u32 key = 0;
-  for (u16 i = 0; i < 100; ++i) {
+  for (u8 i = 0; i < 100; ++i) {
     key = _mm_crc32_u8(key, *(u8*)(base + i));
   }
 
   u8* bytes = (u8*)ctx;
-  for (u8 i = 0; i < sizeof(pyld_ctx_t); ++i) {
+  for (u16 i = 0; i < sizeof(pyld_ctx_t); ++i) {
     bytes[i] ^= key;
   }
 }

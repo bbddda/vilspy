@@ -54,6 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -74,6 +75,7 @@
     <IncludePath>..\shared\;.\;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)build\</OutDir>
     <IntDir>$(SolutionDir)build\intermediates\$(ProjectName)\</IntDir>
+    <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -122,9 +124,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;PAYLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <ForcedIncludeFiles>types.hpp;crypto.hpp;</ForcedIncludeFiles>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <Optimization>Full</Optimization>
@@ -146,24 +149,27 @@
       <EntryPointSymbol>PayloadEntry</EntryPointSymbol>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <AdditionalDependencies>libucrt.lib;vcruntime.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AllowIsolation>true</AllowIsolation>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="entry.cpp" />
-    <ClCompile Include="iat.cpp" />
     <ClCompile Include="veh_enc.cpp" />
-    <ClCompile Include="vm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="crypto.hpp" />
     <ClInclude Include="docs.hpp" />
     <ClInclude Include="globals.hpp" />
     <ClInclude Include="iat.hpp" />
-    <ClInclude Include="vector.hpp" />
     <ClInclude Include="veh_enc.hpp" />
-    <ClInclude Include="vm.hpp" />
+    <ClInclude Include="xorstr.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="inline.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>

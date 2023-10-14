@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <types.hpp>
 
 namespace str {
 constexpr wchar_t hex[] = L"abcdef0123456789";

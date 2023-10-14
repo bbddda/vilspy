@@ -28,6 +28,8 @@ u64 pe_c::FindExport(const char* name) {
   return 0;
 }
 
+std::vector<u8>* pe_c::Bytes() { return &m_bytes; }
+
 u64 pe_c::Base() { return (u64)m_bytes.data(); }
 
 u64 pe_c::Size() { return m_bytes.size(); }
@@ -105,7 +107,7 @@ IMAGE_SECTION_HEADER* pe_c::FindSection(const char* name) {
 }
 
 u64 pe_c::EntryPoint() {
-  return (u64)Base() + Nt()->OptionalHeader.AddressOfEntryPoint;
+  return Base() + RvaToOffset(Nt()->OptionalHeader.AddressOfEntryPoint);
 }
 
 u32* pe_c::EntryPointVA() {

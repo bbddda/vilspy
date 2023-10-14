@@ -1,5 +1,7 @@
 #pragma once
 
+#include <types.hpp>
+
 namespace crypto {
 template <typename T>
 constexpr u32 hash(const T* str) {

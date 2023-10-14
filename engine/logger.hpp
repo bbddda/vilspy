@@ -6,6 +6,8 @@
 #include <string>
 #include <thread>
 
+#include <types.hpp>
+
 class logger_c {
  public:
   enum code_e : u8 { ok, err, wait, warn, no_prefix };

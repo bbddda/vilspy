@@ -1,9 +1,10 @@
 #pragma once
 
-#include <vector>
-#include <string>
-
 #include <Windows.h>
+
+#include <string>
+#include <types.hpp>
+#include <vector>
 
 constexpr u32 x = IMAGE_SCN_MEM_EXECUTE;
 constexpr u32 r = IMAGE_SCN_MEM_READ;
@@ -18,9 +19,10 @@ class pe_c {
   pe_c(const std::vector<u8>& bytes);
   pe_c(const std::string& filepath);
   ~pe_c();
-  
+
   u64 FindExport(const char* name);
 
+  std::vector<u8>* Bytes();
   u64 Base();
   u64 Size();
 

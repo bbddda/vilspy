@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <winternl.h>
+#include <types.hpp>
 
 #define RECORD(address, type, field) \
   ((type*)((char*)(address) - (ULONGLONG)(&((type*)0)->field)))
