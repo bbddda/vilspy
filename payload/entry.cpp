@@ -103,5 +103,5 @@ void PayloadEntry() {
 
   /* erase pe header */
   u64 dec_ep = dec64(ctx.ep, ctx.key);
-  return spoofed_jmp(g_base + dec_ep);
+  return reinterpret_cast<void(*)()>(g_base + dec_ep)();
 }
